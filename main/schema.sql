@@ -7,7 +7,7 @@ CREATE TABLE users (
 	date_created date,
 	last_login DATE
 );
-
+--asd
 CREATE TABLE posts (
 	pid SERIAL PRIMARY KEY,
 	title VARCHAR(500),
