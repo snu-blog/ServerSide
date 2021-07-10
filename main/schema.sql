@@ -27,3 +27,5 @@ CREATE TABLE comments (
 	post_id INT REFERENCES posts(pid),
 	date_created TIMESTAMP
 );
+
+
