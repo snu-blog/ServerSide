@@ -18,16 +18,18 @@ router.post("/api/post/adduser", (req, res, next) => {
     req.body.email,
     false,
   ];
-  console.log("Initiated");
+
   pool.query(
     "INSERT INTO users (first_name, last_name, email, email_verified, date_created, last_login) values ($1, $2, $3, $4, NOW(), NOW())",
     values,
     (err, results) => {
       if (err) {
         console.log(err);
-        next(err);
+        if (err.code == 23505)
+          res.status(200).send({ message: "User Already Exists" });
+        else next(err);
       } else {
-        res.json(results);
+        res.status(200).send({ message: "Added User Successfully" });
         console.log(results);
       }
     }
