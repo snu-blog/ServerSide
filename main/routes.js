@@ -2,37 +2,73 @@ const express = require("express");
 const router = express.Router();
 const pool = require("./db");
 
-//get all users from the pool
-router.get("/api/get/allusers", (req, res, next) => {
-  pool.query("SELECT * FROM users").then((users) => {
-    res.json(users);
-    console.log(users.rows);
-  });
-});
+//object for storing new user
+const newUser = {
+  AlreadyExists: false,
+  Confirmed: false,
+  unknownError: false,
+};
 
-//post user to the pool
+//object for storing authentication check
+const authenticateUser = {
+  doesNotExist: false,
+  passwordMatch: false,
+  data: {},
+};
+
+//register a new user
 router.post("/api/post/adduser", (req, res, next) => {
-  const values = [
-    req.body.first_name,
-    req.body.last_name,
-    req.body.email,
-    false,
-  ];
-
+  //const values = [req.body.name, req.body.email, req.body.password]; //Received from Frontend
+  const values = ["a", "a", "a"];
   pool.query(
-    "INSERT INTO users (first_name, last_name, email, email_verified, date_created, last_login) values ($1, $2, $3, $4, NOW(), NOW())",
+    "INSERT INTO users (user_name, email, password, date_created, last_login) values ($1, $2, $3, NOW(), NOW())",
     values,
     (err, results) => {
       if (err) {
-        console.log(err);
-        if (err.code == 23505)
-          res.status(200).send({ message: "User Already Exists" });
-        else next(err);
+        console.log("User Already Exists");
+        //If a user already exists
+        if (err.code == 23505) newUser.AlreadyExists = true;
+        else newUser.unknownError = true;
       } else {
-        res.status(200).send({ message: "Added User Successfully" });
-        console.log(results);
+        newUser.Confirmed = true;
+        console.log("New User Confirmed");
       }
+      res.status(200).send(newUser);
     }
   );
 });
+
+//authenticate
+router.post("/api/authenticate", (req, res, next) => {
+  const values = [req.body.email, req.body.password];
+  pool.query(
+    "SELECT * FROM users WHERE email = $1",
+    [values[0]],
+    (err, results) => {
+      //No such user with the given email exists
+      if (results.rowCount === 0) {
+        authenticateUser.doesNotExist = true;
+      } else if (!err) {
+        //User exists and passwords Match
+        if (results.rows[0].password === values[1]) {
+          console.log("Match!");
+          authenticateUser.passwordMatch = true;
+          authenticateUser.data = results.rows[0];
+          authenticateUser.data.password = null;
+        }
+        //Password does not match
+        else {
+          console.log("Not a match!");
+        }
+      }
+      // unknownError
+      else {
+        console.log(err);
+        next(err);
+      }
+      res.status(200).send(authenticateUser);
+    }
+  );
+});
+
 module.exports = router;
