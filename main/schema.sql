@@ -23,8 +23,7 @@ CREATE TABLE posts (
 	user_email VARCHAR NOT NULL REFERENCES users(email),
 	date_created TIMESTAMP,
 	like_user_id INT[] DEFAULT ARRAY[]::INT[],
-	likes INT default 0,
-	
+	likes INT default 0
 );
 
 CREATE TABLE comments (
