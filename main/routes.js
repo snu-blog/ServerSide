@@ -5,6 +5,12 @@ const registerHandler = require("./auth/registerHandler");
 const postByCategoryHandler = require("./Posts/Category");
 const getCommentsHandler = require("./Comments/CommentsOfAPost");
 const addCommentHandler = require("./comments/addComment");
+const newPostHandler = require("./Posts/newPost");
+
+// new post
+router.post("/api/newPost", (req, res, next) => {
+  newPostHandler(req, res, next);
+});
 
 //register a new user
 router.post("/api/register", (req, res, next) => {
