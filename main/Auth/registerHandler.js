@@ -7,9 +7,14 @@ module.exports = function registerHandler(req, res, next) {
     unknownError: false,
   };
 
-  const values = [req.body.name, req.body.email, req.body.password]; //Received from Frontend
+  const values = [
+    req.body.nickname,
+    req.body.name,
+    req.body.email,
+    req.body.password,
+  ]; //Received from Frontend
   pool.query(
-    "INSERT INTO users (user_name, email, password, date_created, last_login) values ($1, $2, $3, NOW(), NOW())",
+    "INSERT INTO users (nickname, full_name, email, password, date_created, last_login) values ($1, $2, $3, $4, NOW(), NOW())",
     values,
     (err, results) => {
       if (err) {
