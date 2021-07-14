@@ -32,7 +32,7 @@ router.post("/post/newpost", (req, res, next) => {
 
 // get all the posts from this given category
 router.get("/post/getPostsByCategory/:category", (req, res, next) => {
-  postByCategoryHandler(req, res, next);
+  postByCategoryHandler.getPostsByCategory(req, res, next);
 });
 
 //COMMENT HANDLING
