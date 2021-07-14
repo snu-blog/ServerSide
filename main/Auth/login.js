@@ -7,7 +7,10 @@ module.exports = function loginHandler(req, res, next) {
   const authenticateUser = {
     doesNotExist: false,
     passwordMatch: false,
-    token: "",
+    token: {
+      key: "",
+      expirationDate: "",
+    },
     data: {},
   };
   const values = [req.body.username, req.body.password];
@@ -21,7 +24,6 @@ module.exports = function loginHandler(req, res, next) {
       } else if (!err) {
         //User exists and passwords Match
         if (results.rows[0].password === values[1]) {
-          console.log("Match!");
           authenticateUser.passwordMatch = true;
           authenticateUser.data = results.rows[0];
           authenticateUser.data.password = null;
@@ -29,7 +31,14 @@ module.exports = function loginHandler(req, res, next) {
             results.rows[0].uid,
             process.env.ACCESS_TOKEN_SECRET
           );
-          authenticateUser.token = token;
+          authenticateUser.token.key = token;
+          pool.query(
+            "UPDATE users SET last_login = $1 WHERE uid = $2",
+            ["Now()", results.rows[0].uid],
+            (e, r) => {
+              if (e) throw new e();
+            }
+          );
         }
         //Password does not match
         else {

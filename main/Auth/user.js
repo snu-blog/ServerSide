@@ -23,6 +23,8 @@ const userData = (req, res, next) => {
           }
         );
     });
+  } else {
+    return res.json(userData);
   }
 };
 

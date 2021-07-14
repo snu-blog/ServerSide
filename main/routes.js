@@ -20,7 +20,7 @@ router.post("/user/login", (req, res, next) => {
 });
 
 // fetch user
-router.post("/user/:id", (req, res, next) => {
+router.post("/user/data/:id", (req, res, next) => {
   userDataHandler(req, res, next);
 });
 
