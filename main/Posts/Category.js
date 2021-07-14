@@ -1,9 +1,8 @@
 const pool = require("../db");
 
-module.exports = function getPostsByCategory(req, res, next) {
+module.exports = getPostsByCategory = (req, res, next) => {
   const posts = [];
   const category = req.params.category;
-  console.log(category);
   pool.query(
     "SELECT * FROM posts WHERE broad_category = $1",
     [category],

@@ -1,8 +1,7 @@
 const pool = require("../db");
 
 module.exports = function commentsOfAPost(req, res, next) {
-  console.log(1);
-  const id = req.params.id;
+  const post_id = req.params.post_id;
   const comments = {
     noComments: true,
     comments: [],
@@ -10,7 +9,7 @@ module.exports = function commentsOfAPost(req, res, next) {
 
   pool.query(
     "SELECT * FROM comments WHERE post_id = $1 ORDER BY date_created ASC",
-    [id],
+    [post_id],
     (err, results) => {
       if (results.rowCount > 0) {
         comments.comments = results.rows;

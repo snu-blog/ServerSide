@@ -1,13 +1,16 @@
 const pool = require("../db");
-
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 module.exports = function loginHandler(req, res, next) {
   //object for storing authentication check
   const authenticateUser = {
     doesNotExist: false,
     passwordMatch: false,
+    token: "",
     data: {},
   };
-  const values = [req.body.email, req.body.password];
+  const values = [req.body.username, req.body.password];
   pool.query(
     "SELECT * FROM users WHERE email = $1",
     [values[0]],
@@ -22,6 +25,11 @@ module.exports = function loginHandler(req, res, next) {
           authenticateUser.passwordMatch = true;
           authenticateUser.data = results.rows[0];
           authenticateUser.data.password = null;
+          const token = jwt.sign(
+            results.rows[0].uid,
+            process.env.ACCESS_TOKEN_SECRET
+          );
+          authenticateUser.token = token;
         }
         //Password does not match
         else {

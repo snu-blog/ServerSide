@@ -1,0 +1,4 @@
+GET http://localhost:5000/post/getPostsByCategory/Competitive%20Programming
+###
+POST http://localhost:5000/user/1
+Authorization: eyJhbGciOiJIUzI1NiJ9.MQ.Vy3_jMsJNs--uvs9534acpwNS0uwawW1PiErFjTDEGA
