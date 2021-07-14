@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const loginHandler = require("./auth/loginHandler");
-const registerHandler = require("./auth/registerHandler");
+const loginHandler = require("./auth/login");
+const registerHandler = require("./auth/register");
 const postByCategoryHandler = require("./Posts/Category");
 const getCommentsHandler = require("./comments/getComments");
 const addCommentHandler = require("./comments/addComment");
 const newPostHandler = require("./Posts/newPost");
-const editCommentHanlder = require("./comments/editComment");
-const userDataHandler = require("./Auth/userData.js");
+const editCommentHandler = require("./comments/editComment");
+const userDataHandler = require("./Auth/user.js");
 // USER HANDLING
 //register a new user
 router.post("/user/register", (req, res, next) => {
@@ -48,7 +48,7 @@ router.post("/comment/add", (req, res, next) => {
 
 // Edit a comment
 router.put("/comment/edit/:commentId", (req, res, next) => {
-  editCommentHanlder(req, res, next);
+  editCommentHandler(req, res, next);
 });
 
 module.exports = router;
