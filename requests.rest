@@ -1,4 +1,23 @@
+# Getall posts by category
 GET http://localhost:5000/post/getPostsByCategory/Competitive%20Programming
+
+
 ###
-POST http://localhost:5000/user/1
+# Get user data by JWT Token and userID
+POST http://localhost:5000/user/data/1
 Authorization: eyJhbGciOiJIUzI1NiJ9.MQ.Vy3_jMsJNs--uvs9534acpwNS0uwawW1PiErFjTDEGA
+
+
+
+###
+POST http://localhost:5000/post/newpost HTTP/1.1
+content-type: application/json
+{
+	"title": "Test Post",
+	"content": "This is a test post",
+	"category": "Competitive Programming",
+	"user_ID": 1,
+	"user_email": "pa749@snu.edu.in",
+	"nickname": "PrathamAgg"
+}
+###

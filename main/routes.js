@@ -2,12 +2,11 @@ const express = require("express");
 const router = express.Router();
 const loginHandler = require("./auth/login");
 const registerHandler = require("./auth/register");
-const postByCategoryHandler = require("./Posts/Category");
 const getCommentsHandler = require("./comments/getComments");
 const addCommentHandler = require("./comments/addComment");
-const newPostHandler = require("./Posts/newPost");
 const editCommentHandler = require("./comments/editComment");
 const userDataHandler = require("./Auth/user.js");
+const postHandler = require("./Posts/Queries");
 // USER HANDLING
 //register a new user
 router.post("/user/register", (req, res, next) => {
@@ -27,12 +26,12 @@ router.post("/user/data/:id", (req, res, next) => {
 //POST HANDLING
 // new post
 router.post("/post/newpost", (req, res, next) => {
-  newPostHandler(req, res, next);
+  postHandler.newPost(req, res, next);
 });
 
 // get all the posts from this given category
 router.get("/post/getPostsByCategory/:category", (req, res, next) => {
-  postByCategoryHandler.getPostsByCategory(req, res, next);
+  postHandler.getPostsByCategory(req, res, next);
 });
 
 //COMMENT HANDLING
