@@ -1,15 +1,26 @@
 CREATE TABLE users (
 	uid SERIAL PRIMARY KEY,
+	--- fullname, nickname, password, email, image
 	full_name VARCHAR(200) NOT NULL,
 	password VARCHAR(100) NOT NULL,
 	nickname VARCHAR(100) NOT NULL,
+	UNIQUE(nickname)
 	image_url TEXT UNIQUE,
 	email varchar(255) UNIQUE NOT NULL,
 	email_verified BOOLEAN DEFAULT FALSE,
 	verification_email_sent BOOLEAN DEFAULT FALSE,
+	-- created_at, updated_at
 	date_created DATE NOT NULL,
 	last_login DATE NOT NULL,
-	UNIQUE(nickname)
+	--- Bio & contactInfo
+	bio TEXT,
+	user_location TEXT,
+	user_website TEXT,
+	user_twitter TEXT,
+	user_linkedIn TEXT, 
+	user_instagram TEXT,
+	user_github TEXT,
+	user_phoneNo varchar(13),
 );
 
 CREATE TABLE posts (

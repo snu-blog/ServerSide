@@ -1,5 +1,3 @@
-// create postgres query objects with text and value field
-
 const query = {
   create: (text, values) => {
     return {
